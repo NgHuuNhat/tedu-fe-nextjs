@@ -8,7 +8,6 @@ const adminRef = collection(db, COLLECTIONS.ADMIN)
 
 export const findAdminByEmail = async (email: string): Promise<IAdminDb> => {
     const exitedAdmin = await getDocs(query(adminRef, where('email', '==', email)))
-    if (exitedAdmin.docs.length) throw Error('Email is exited!')
     const admin = exitedAdmin.docs[0].data() as IAdminDb
     return {
         ...admin,
@@ -16,8 +15,18 @@ export const findAdminByEmail = async (email: string): Promise<IAdminDb> => {
     }
 }
 
+export const isEmailExists = async (email: string): Promise<boolean> => {
+    const exitedEmail = await getDocs(
+        query(adminRef, where('email', '==', email))
+    )
+    return !exitedEmail.empty
+}
+
 export const createAdmin = async (data: ICreateAdminInput) => {
-    const exitedAdmin = await findAdminByEmail(data.email)
+    const isExists = await isEmailExists(data.email)
+    if (isExists) {
+        throw new Error('Email already exists!')
+    }
 
     const hashedPassword = await hashPassword(data.password)
 
@@ -27,7 +36,6 @@ export const createAdmin = async (data: ICreateAdminInput) => {
         created_at: Timestamp.now(),
         updated_at: Timestamp.now(),
     })
-
     const newAdmin = await getDoc(newAdminRef)
 
     return { id: newAdmin.id, ...newAdmin.data() }

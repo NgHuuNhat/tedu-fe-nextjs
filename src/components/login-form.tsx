@@ -15,10 +15,19 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+type LoginFormProps = Omit<
+  React.ComponentProps<"div">,
+  "onSubmit"
+> & {
+  onSubmit?: (data: FormData) => void
+}
+
 export function LoginForm({
   className,
+  onSubmit,
   ...props
-}: React.ComponentProps<"div">) {
+}: LoginFormProps) {
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -29,11 +38,16 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={(e) => {
+            e.preventDefault()
+            const data = new FormData(e.currentTarget)
+            onSubmit?.(data)
+          }}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
+                  name="email"
                   id="email"
                   type="email"
                   placeholder="m@example.com"
@@ -50,7 +64,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input name="password" id="password" type="password" required />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
