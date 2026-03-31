@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,18 +17,42 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-type LoginFormProps = Omit<
-  React.ComponentProps<"div">,
-  "onSubmit"
-> & {
-  onSubmit?: (data: FormData) => void
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+
+// 👉 schema validate
+const formSchema = z.object({
+  email: z.string().email("Email không hợp lệ"),
+  password: z.string().min(3, "Mật khẩu tối thiểu 3 ký tự"),
+})
+
+type FormValues = z.infer<typeof formSchema>
+
+type LoginFormProps = React.ComponentProps<"div"> & {
+  onLogin?: (data: FormValues) => void
 }
 
 export function LoginForm({
   className,
-  onSubmit,
+  onLogin,
   ...props
 }: LoginFormProps) {
+
+  // 👉 init react-hook-form
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
+
+  // 👉 handle submit
+  const handleSubmit = (data: FormValues) => {
+    console.log("data:", data)
+    onLogin?.(data)
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -34,47 +60,72 @@ export function LoginForm({
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to login
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          <form onSubmit={(e) => {
-            e.preventDefault()
-            const data = new FormData(e.currentTarget)
-            onSubmit?.(data)
-          }}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <FieldGroup>
+
+              {/* EMAIL */}
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel>Email</FieldLabel>
                 <Input
-                  name="email"
-                  id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  {...form.register("email")}
                 />
+                {form.formState.errors.email && (
+                  <FieldDescription className="text-red-500">
+                    {form.formState.errors.email.message}
+                  </FieldDescription>
+                )}
               </Field>
+
+              {/* PASSWORD */}
               <Field>
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <FieldLabel>Password</FieldLabel>
                   <a
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto text-sm hover:underline"
                   >
-                    Forgot your password?
+                    Forgot password?
                   </a>
                 </div>
-                <Input name="password" id="password" type="password" required />
+
+                <Input
+                  type="password"
+                  {...form.register("password")}
+                />
+
+                {form.formState.errors.password && (
+                  <FieldDescription className="text-red-500">
+                    {form.formState.errors.password.message}
+                  </FieldDescription>
+                )}
               </Field>
+
+              {/* BUTTON */}
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full mt-2"
+                >
                   Login with Google
                 </Button>
-                <FieldDescription className="text-center">
+
+                <FieldDescription className="text-center mt-2">
                   Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>
               </Field>
+
             </FieldGroup>
           </form>
         </CardContent>

@@ -1,28 +1,32 @@
 "use client"
+import { ICreateAdminInput } from "@/app/features/managers/type"
 import { LoginForm } from "@/components/login-form"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export default function AuthPage() {
     const router = useRouter()
 
-    const onLogin = async (data: FormData) => {
+    const onLogin = async (data: ICreateAdminInput) => {
         const res = await signIn("credentials", {
-            email: data.get("email"),
-            password: data.get("password"),
+            email: data.email,
+            password: data.password,
             redirect: false,
+            callbackUrl: "/admin/categories"
         })
 
-        if (res?.error) return alert("Sai tài khoản")
+        if (res?.error) return toast.error("Login that bai!!! Sai email hoac pasword!!!")
 
-        router.push("/admin")
+        toast.success("Login thanh cong")
+        router.push("/admin/categories")
     }
 
 
     return (
         <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
             <div className="w-full max-w-sm">
-                <LoginForm onSubmit={onLogin} />
+                <LoginForm onLogin={onLogin} />
             </div>
         </div>
     )
