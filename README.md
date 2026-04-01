@@ -5,7 +5,7 @@
 - Database & Cloud: Firebase (Firestore, Authentication), Google Cloud Platform.
 - Tools & Others: Git/GitHub, VS Code, Postman.
 
-## Features
+## Features:
 ### Admin panel
 - Managers management (admins)
 - Categories management
