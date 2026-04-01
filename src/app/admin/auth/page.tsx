@@ -16,7 +16,10 @@ export default function AuthPage() {
             callbackUrl: "/admin/categories"
         })
 
-        if (res?.error) return toast.error("Login that bai!!! Sai email hoac pasword!!!")
+        if (res?.error) {
+            toast.error(res.error) // 👈 hiển thị đúng lỗi BE
+            return
+        }
 
         toast.success("Login thanh cong")
         router.push("/admin/categories")

@@ -1,44 +1,20 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card"
+import { Field, FieldDescription, FieldGroup, FieldLabel, } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-
-// 👉 schema validate
-const formSchema = z.object({
-  email: z.string().email("Email không hợp lệ"),
-  password: z.string().min(3, "Mật khẩu tối thiểu 3 ký tự"),
-})
+import { formSchema } from "@/app/features/managers/rules"
 
 type FormValues = z.infer<typeof formSchema>
-
 type LoginFormProps = React.ComponentProps<"div"> & {
   onLogin?: (data: FormValues) => void
 }
 
-export function LoginForm({
-  className,
-  onLogin,
-  ...props
-}: LoginFormProps) {
-
-  // 👉 init react-hook-form
+export function LoginForm({ className, onLogin, ...props }: LoginFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,9 +23,7 @@ export function LoginForm({
     },
   })
 
-  // 👉 handle submit
   const handleSubmit = (data: FormValues) => {
-    console.log("data:", data)
     onLogin?.(data)
   }
 
