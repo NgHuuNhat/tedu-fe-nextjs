@@ -13,7 +13,7 @@ export default function AuthPage() {
             email: data.email,
             password: data.password,
             redirect: false,
-            callbackUrl: "/admin/categories"
+            callbackUrl: "/admin"
         })
 
         if (res?.error) {
@@ -22,7 +22,7 @@ export default function AuthPage() {
         }
 
         toast.success("Login thanh cong")
-        router.push("/admin/categories")
+        router.push("/admin")
     }
 
 
