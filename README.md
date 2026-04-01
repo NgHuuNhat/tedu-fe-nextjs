@@ -1,3 +1,6 @@
+## WEB: ecommerce
+## TECH: nextjs, shadcn, firebase
+
 ## Features
 ### Admin panel
 - Managers management (admins)
