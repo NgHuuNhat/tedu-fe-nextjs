@@ -1,4 +1,4 @@
-## Web: ecommerce
+## Web: e-commerce
 ## Tech: 
 - Front-end: Next.js (App Router), React, TypeScript, Tailwind CSS, Shadcn UI, React Hook Form.
 - Back-end: Next.js API Routes (Route Handlers), NextAuth.js, Zod (Validation).
