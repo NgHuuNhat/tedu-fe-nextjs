@@ -1,5 +1,9 @@
-## WEB: ecommerce
-## TECH: nextjs, shadcn, firebase
+## Web: ecommerce
+## Tech: 
+- Front-end: Next.js (App Router), React, TypeScript, Tailwind CSS, Shadcn UI, React Hook Form.
+- Back-end: Next.js API Routes (Route Handlers), NextAuth.js, Zod (Validation).
+- Database & Cloud: Firebase (Firestore, Authentication), Google Cloud Platform.
+- Tools & Others: Git/GitHub, VS Code, Postman.
 
 ## Features
 ### Admin panel
