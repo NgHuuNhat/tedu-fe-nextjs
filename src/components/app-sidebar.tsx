@@ -15,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, ListIcon, ChartBarIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, CommandIcon } from "lucide-react"
+import { LayoutDashboardIcon, ListIcon, ChartBarIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, CommandIcon, LayoutDashboard, ChartBarStacked, LogIn, Package } from "lucide-react"
 
 const data = {
   user: {
@@ -26,7 +26,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/admin",
       icon: (
         <LayoutDashboardIcon
         />
@@ -150,26 +150,39 @@ const data = {
   ],
   documents: [
     {
-      name: "Data Library",
-      url: "#",
+      name: "Login",
+      url: "/admin/auth",
       icon: (
-        <DatabaseIcon
+        <LogIn />
+      ),
+    },
+    {
+      name: "Admin",
+      url: "/admin",
+      icon: (
+        <LayoutDashboard />
+      ),
+    },
+    {
+      name: "Categories",
+      url: "/admin/categories",
+      icon: (
+        <Package />
+      ),
+    },
+    {
+      name: "Products",
+      url: "/admin/products",
+      icon: (
+        <Package
         />
       ),
     },
     {
-      name: "Reports",
-      url: "#",
+      name: "Managers",
+      url: "/admin/managers",
       icon: (
-        <FileChartColumnIcon
-        />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <FileIcon
+        <Package
         />
       ),
     },
@@ -186,16 +199,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <a href="/admin">
                 <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Dashboard</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {/* <NavMain items={data.navMain} /> */}
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
