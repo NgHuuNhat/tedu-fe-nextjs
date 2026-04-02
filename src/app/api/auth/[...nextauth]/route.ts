@@ -30,6 +30,11 @@ const loginAdmin = async (email: string, password: string) => {
 }
 
 export const authOptions: NextAuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt", // BẮT BUỘC có dòng này để Middleware getToken hoạt động
+        maxAge: 30 * 24 * 60 * 60, // 30 ngày
+    },
     providers: [
         CredentialsProvider({
             credentials: {
@@ -62,10 +67,6 @@ export const authOptions: NextAuthOptions = {
         })
     ],
 
-    pages: {
-        signIn: '/admin/auth', // Chỉ định trang login custom của bạn
-    },
-
     callbacks: {
         async jwt({ token, user }) {
             if (user) token.id = user.id
@@ -75,6 +76,12 @@ export const authOptions: NextAuthOptions = {
             if (session.user) session.user.id = token.id as string
             return session
         }
+    },
+
+    // callbacks: {},
+
+    pages: {
+        signIn: '/admin/auth', // Chỉ định trang login custom của bạn
     },
 }
 
