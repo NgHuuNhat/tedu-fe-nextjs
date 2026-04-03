@@ -149,13 +149,13 @@ const data = {
     },
   ],
   documents: [
-    {
-      name: "Login",
-      url: "/admin/auth",
-      icon: (
-        <LogIn />
-      ),
-    },
+    // {
+    //   name: "Login",
+    //   url: "/admin/auth",
+    //   icon: (
+    //     <LogIn />
+    //   ),
+    // },
     {
       name: "Admin",
       url: "/admin",
