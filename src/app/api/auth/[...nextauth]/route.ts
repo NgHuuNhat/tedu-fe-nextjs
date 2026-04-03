@@ -1,6 +1,5 @@
 import { findAdminByEmail, isEmailExists } from "@/app/features/managers/model"
 import { formSchema } from "@/app/features/managers/rules"
-import { ICreateAdminInput } from "@/app/features/managers/type"
 import { comparePassword } from "@/utils/common/password"
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -77,8 +76,6 @@ export const authOptions: NextAuthOptions = {
             return session
         }
     },
-
-    // callbacks: {},
 
     pages: {
         signIn: '/admin/auth', // Chỉ định trang login custom của bạn

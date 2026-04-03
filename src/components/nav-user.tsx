@@ -20,10 +20,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { EllipsisVerticalIcon, CircleUserRoundIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import { EllipsisVerticalIcon, CircleUserRoundIcon, CreditCardIcon, BellIcon, LogOutIcon, CircleUserRound } from "lucide-react"
+import { signOut, useSession } from "next-auth/react"
 
 export function NavUser({
-  user,
+  user: propsUser,
 }: {
   user: {
     name: string
@@ -32,6 +33,24 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { data: session } = useSession()
+
+  // Nếu chưa có session thì hiện loading hoặc null
+  if (!session?.user) return null
+
+  // Lấy dữ liệu từ session hoặc props
+  const rawEmail = session.user.email || propsUser.email;
+  const rawName = session.user.name || propsUser.name;
+
+  // Logic: Nếu không có name, lấy phần trước dấu @ của email làm name
+  const displayName = rawName || (rawEmail ? rawEmail.split('@')[0] : "Admin");
+
+  const user = {
+    ...propsUser,
+    name: displayName,
+    email: rawEmail,
+    avatar: session.user.image || propsUser.avatar,
+  }
 
   return (
     <SidebarMenu>
@@ -44,7 +63,7 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg"><CircleUserRound className="h-4 w-4" /></AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -65,7 +84,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg"><CircleUserRound className="h-4 w-4" /></AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -94,7 +113,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOut()} >
               <LogOutIcon
               />
               Log out
