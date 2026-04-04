@@ -1,5 +1,6 @@
-import { getTodoDetail } from "@/app/todos/feature"
+// import { getTodoDetail } from "@/app/todos/feature"
 import { NextResponse } from "next/server"
+import { getTodoDetail } from "../../feature"
 
 export const GET = async (req: Request, { params }: any) => {
     const { id } = await params

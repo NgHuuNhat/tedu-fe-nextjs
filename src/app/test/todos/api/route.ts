@@ -1,5 +1,6 @@
-import { addTodo, getTodos } from "@/app/todos/feature"
+// import { addTodo, getTodos } from "@/app/todos/feature"
 import { NextResponse } from "next/server"
+import { addTodo, getTodos } from "../feature"
 
 export const GET = async () => {
     const data = await getTodos()
