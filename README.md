@@ -6,14 +6,14 @@
 - Tools & Others: Git/GitHub, VS Code, Postman.
 
 ## Features:
-### Admin panel
+### Admin panel ("/admin")
 - Managers management (admins)
 - Categories management
 - Products management
 - Couponts management
 - Users management
 - Orders management
-### Customer
+### Customer ("/")
 - Homepage (All products pagination, categories list)
 - Category detail
 - Product Detail
